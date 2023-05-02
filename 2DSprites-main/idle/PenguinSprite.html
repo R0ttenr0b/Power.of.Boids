@@ -29,7 +29,14 @@
         walk_E: ['walk_E_0.png', 'walk_E_1.png', 'walk_E_2.png', 'walk_E_3.png'],
         walk_N: ['walk_N_0.png', 'walk_N_1.png', 'walk_N_2.png', 'walk_N_3.png'],
         walk_S: ['walk_S_0.png', 'walk_S_1.png', 'walk_S_2.png', 'walk_S_3.png'],
-        walk_W: ['walk_W_0.png', 'walk_W_1.png', 'walk_W_2.png', 'walk_W_3.png']
+        walk_W: ['walk_W_0.png', 'walk_W_1.png', 'walk_W_2.png', 'walk_W_3.png'],
+
+        sprite2_idle: ['sprite2_idle_0.png',' sprite2_idle_1.png',' sprite2_idle_2.png','idle_3.png','idle_4.png','idle_5.png','idle_6.png','idle_7.png','idle_8.png','idle_9.png','idle_10.png','idle_11.png' ],
+        sprite2_walk_E: [' sprite2_walk_E_0.png', ' sprite2_walk_E_1.png', ' sprite2_walk_E_2.png', ' sprite2_walk_E_3.png'],
+        sprite2_walk_N: [' sprite2_walk_N_0.png', ' sprite2_walk_N_1.png', ' sprite2_walk_N_2.png', ' sprite2_walk_N_3.png'],
+        sprite2_walk_S: [' sprite2_walk_S_0.png', ' sprite2_walk_S_1.png', ' sprite2_walk_S_2.png', ' sprite2_walk_S_3.png'],
+        sprite2_walk_W: [' sprite2_walk_W_0.png', ' sprite2_walk_W_1.png', ' sprite2_walk_W_2.png', ' sprite2_walk_W_3.png']
+
       };
 
       const images = {};
@@ -51,8 +58,17 @@
       let penguinMoveX = 0;
       let penguinMoveY = 0;
 
+      let sprite2X = 200;
+      let sprite2Y = 650;
+      let sprite2MoveX = 0;
+      let sprite2MoveY = 0;
+
       document.addEventListener('keydown', handleKeyDown);
       document.addEventListener('keyup', handleKeyUp);
+
+      document.addEventListener('keydown', handleKeyDownSprite2);
+      document.addEventListener('keyup', handleKeyUpSprite2);
+
 
       function handleKeyDown(event) {
         if (event.key === 'ArrowLeft') {
