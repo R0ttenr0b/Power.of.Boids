@@ -51,6 +51,7 @@
       }
 
       let currentAnimation = 'idle';
+      let currentAnimation2 = 'sprite2_idle';
       let frameIndex = 0;
 
       let penguinX = 200;
@@ -58,8 +59,8 @@
       let penguinMoveX = 0;
       let penguinMoveY = 0;
 
-      let sprite2X = 200;
-      let sprite2Y = 650;
+      let sprite2X = 400;
+      let sprite2Y = 350;
       let sprite2MoveX = 0;
       let sprite2MoveY = 0;
 
@@ -97,7 +98,34 @@
     }
         }
       }
-
+      function handleKeyDownSprite2(event) {
+        if (event.key === 'a') {
+          penguinMoveX = -6;
+          if (currentAnimation !== 'walk_W'){
+          currentAnimation = 'walk_W';
+          frameIndex = 0; 
+    }
+        } else if (event.key === 'd') {
+          penguinMoveX = 6;
+          if (currentAnimation !== 'walk_E'){
+          currentAnimation = 'walk_E';
+          frameIndex = 0; 
+    }
+        } else if (event.key === 'w') {
+          penguinMoveY = -1;
+          if (currentAnimation !== 'walk_N'){
+          currentAnimation = 'walk_N';
+          frameIndex = 0; 
+    }
+        } else if (event.key === 's') {
+          penguinMoveY = 2;
+          if (currentAnimation !== 'walk_S'){
+          currentAnimation = 'walk_S';
+          frameIndex = 0; 
+    }
+        }
+      }
+      
       function handleKeyUp(event) {
         if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
           penguinMoveX = 0;
@@ -107,17 +135,30 @@
         currentAnimation = 'idle';
       }
 
+      function handleKeyUpSprite2(event) {
+        if (event.key === 'a' || event.key === 'd') {
+          penguinMoveX = 0;
+        } else if (event.key === 'w' || event.key === 's') {
+          penguinMoveY = 0;
+        }
+        currentAnimation2 = 'idle';
+      }
+
       function updateAndDraw() {
         penguinX += penguinMoveX;
         penguinY += penguinMoveY;
-
+        sprite2X += sprite2MoveX;
+        sprite2Y += sprite2MoveY;
      
         penguinX = Math.min(Math.max(0, penguinX), canvas.width - images[currentAnimation][frameIndex].width);
         penguinY = Math.min(Math.max(0, penguinY), canvas.height - images[currentAnimation][frameIndex].height);
+        sprite2X = Math.min(Math.max(0, sprite2X), canvas.width - images[currentAnimation][frameIndex].width);
+        sprite2Y = Math.min(Math.max(0, sprite2Y), canvas.height - images[currentAnimation][frameIndex].height);
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawBackground();
         ctx.drawImage(images[currentAnimation][frameIndex], penguinX, penguinY);
+        ctx.drawImage(images[currentAnimation][frameIndex], sprite2X, sprite2Y);
         frameIndex = (frameIndex + 1)
         frameIndex = (frameIndex + 1) % images[currentAnimation].length;
       }
