@@ -100,27 +100,27 @@
       }
       function handleKeyDownSprite2(event) {
         if (event.key === 'a') {
-          penguinMoveX = -6;
-          if (currentAnimation !== 'walk_W'){
-          currentAnimation = 'walk_W';
+          sprite2MoveX = -6;
+          if (currentAnimation2 !== 'sprite2_walk_W'){
+          currentAnimation2 = 'sprite2_walk_W';
           frameIndex = 0; 
     }
         } else if (event.key === 'd') {
-          penguinMoveX = 6;
-          if (currentAnimation !== 'walk_E'){
-          currentAnimation = 'walk_E';
+          sprite2MoveX = 6;
+          if (currentAnimation2 !== 'sprite2_walk_E'){
+          currentAnimation2 = 'sprite2_walk_E';
           frameIndex = 0; 
     }
         } else if (event.key === 'w') {
-          penguinMoveY = -1;
-          if (currentAnimation !== 'walk_N'){
-          currentAnimation = 'walk_N';
+          sprite2MoveY = -1;
+          if (currentAnimation2 !== 'sprite2_walk_N'){
+          currentAnimation2 = 'sprite2_walk_N';
           frameIndex = 0; 
     }
         } else if (event.key === 's') {
-          penguinMoveY = 2;
-          if (currentAnimation !== 'walk_S'){
-          currentAnimation = 'walk_S';
+          sprite2MoveY = 2;
+          if (currentAnimation2 !== 'sprite2_walk_S'){
+          currentAnimation2 = 'sprite2_walk_S';
           frameIndex = 0; 
     }
         }
