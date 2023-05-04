@@ -39,6 +39,9 @@
 
       };
 
+
+
+
       const images = {};
 
       for (const animation in animations) {
@@ -152,15 +155,16 @@
      
         penguinX = Math.min(Math.max(0, penguinX), canvas.width - images[currentAnimation][frameIndex].width);
         penguinY = Math.min(Math.max(0, penguinY), canvas.height - images[currentAnimation][frameIndex].height);
-        sprite2X = Math.min(Math.max(0, sprite2X), canvas.width - images[currentAnimation][frameIndex].width);
-        sprite2Y = Math.min(Math.max(0, sprite2Y), canvas.height - images[currentAnimation][frameIndex].height);
+        sprite2X = Math.min(Math.max(0, sprite2X), canvas.width - images[currentAnimation2][frameIndex].width);
+        sprite2Y = Math.min(Math.max(0, sprite2Y), canvas.height - images[currentAnimation2][frameIndex].height);
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawBackground();
         ctx.drawImage(images[currentAnimation][frameIndex], penguinX, penguinY);
-        ctx.drawImage(images[currentAnimation][frameIndex], sprite2X, sprite2Y);
-        frameIndex = (frameIndex + 1)
+        ctx.drawImage(images[currentAnimation2][frameIndex], sprite2X, sprite2Y);
+        
         frameIndex = (frameIndex + 1) % images[currentAnimation].length;
+        frameIndex = (frameIndex - 1) % images[currentAnimation2].length;
       }
 
       setInterval(updateAndDraw, 75);
