@@ -23,6 +23,152 @@
 
       }
 
+var particles = [];
+      var particleCount = 86;
+      var colors = ["#FFA07A", "#FF8C00", "#FF4500"];
+      var alignRadius = 50;
+      var alignForce = 0.05;
+      var cohesionRadius = 80;
+      var cohesionForce = 0.03;
+
+
+for (var i = 0; i < particleCount; i++) {
+        particles.push(new particle());
+      }
+
+      function particle() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.vx = (Math.random() - 0.5) * 2;
+        this.vy = (Math.random() - 0.5) * 2;
+        this.size = Math.random() * 3 + 2;
+        this.color = colors[Math.floor(Math.random() * colors.length)];
+        this.opacity = 1;
+        this.life = 50;
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Alignment behavior
+        for (var i = 0; i < particles.length; i++) {
+          var neighbors = getNeighbors(i, alignRadius);
+          var avgVelocity = {x: 0, y: 0};
+          for (var j = 0; j < neighbors.length; j++) {
+            var neighbor = particles[neighbors[j]];
+            avgVelocity.x += neighbor.vx;
+            avgVelocity.y += neighbor.vy;
+          }
+          if (neighbors.length > 0) {
+            avgVelocity.x /= neighbors.length;
+            avgVelocity.y /= neighbors.length;
+            avgVelocity.x *= alignForce;
+            avgVelocity.y *= alignForce;
+            particles[i].vx += avgVelocity.x;
+            particles[i].vy += avgVelocity.y;
+          }
+        }
+
+        // Cohesion behavior
+        for (var i = 0; i < particles.length; i++) {
+          var neighbors = getNeighbors(i, cohesionRadius);
+          var avgPosition = {x: 0, y: 0};
+          for (var j = 0; j < neighbors.length; j++) {
+            var neighbor = particles[neighbors[j]];
+            avgPosition.x += neighbor.x;
+            avgPosition.y += neighbor.y;
+          }
+          if (neighbors.length > 0) {
+            avgPosition.x /= neighbors.length;
+            avgPosition.y /= neighbors.length;
+            var distance = Math.sqrt((particles[i].x - avgPosition.x) ** 2 + (particles[i].y - avgPosition.y) ** 2);
+            if (distance > 0 && distance < cohesionRadius) {
+              var cohesionX = (avgPosition.x - particles[i].x) * cohesionForce;
+              var cohesionY = (avgPosition.y - particles[i].y) * cohesionForce;
+              particles[i].vx += cohesionX;
+              particles[i].vy += cohesionY;
+            }
+          }
+        }
+
+        for (var i = 0; i < particles.length; i++) {
+            var p = particles[i];
+            ctx.beginPath();
+            ctx.fillStyle = p.color;
+            ctx.globalAlpha = p.opacity;
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2, true);
+            ctx.closePath();
+            ctx.fill();
+
+            // Update particle position and opacity
+            p.x += p.vx;
+            p.y += p.vy;
+            p.opacity -= 1 / p.life;
+            p.life--;
+
+            // Spawn a new particle if the current one has expired or is out of bounds
+            if (p.life < 0 || p.x < 0 || p.x > canvas.width || p.y < 0 || p.y > canvas.height) {
+                particles[i] = new particle();
+            }
+            }
+          // Draw cohesion lines
+          for (var i = 0; i < particles.length; i++) {
+            var p1 = particles[i];
+            for (var j = i + 1; j < particles.length; j++) {
+              var p2 = particles[j];
+              var distance = Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
+              if (distance < alignRadius) {
+                ctx.beginPath();
+                ctx.strokeStyle = "#ddd";
+                ctx.globalAlpha = 1 - distance / alignRadius;
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.stroke();
+              }
+            }
+          }
+          
+          // Update and draw particles
+          for (var i = 0; i < particles.length; i++) {
+            var p = particles[i];
+            ctx.beginPath();
+            ctx.fillStyle = p.color;
+            ctx.globalAlpha = p.opacity*0.8;
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2, true);
+            ctx.closePath();
+            ctx.fill();
+
+            // Update particle position and opacity
+            p.x += p.vx;
+            p.y += p.vy;
+            p.opacity -= 1 / p.life;
+            p.life--;
+
+            // Spawn a new particle if the current one has expired or is out of bounds
+            if (p.life < 0 || p.x < 0 || p.x > canvas.width || p.y < 0 || p.y > canvas.height) {
+              particles[i] = new particle();
+            }
+          }
+          setTimeout(draw, 46); // delay between each frame update
+
+          //requestAnimationFrame(draw);
+        }
+
+        function getNeighbors(index, radius) {
+          var neighbors = [];
+          var p = particles[index];
+          for (var i = 0; i < particles.length; i++) {
+            if (i != index) {
+              var distance = Math.sqrt((p.x - particles[i].x) ** 2 + (p.y - particles[i].y) ** 2);
+              if (distance < radius) {
+                neighbors.push(i);
+              }
+            }
+          }
+          return neighbors;
+        }
+
+        draw();
 
       const animations = {
         idle: ['idle_0.png','idle_1.png','idle_2.png','idle_3.png','idle_4.png','idle_5.png','idle_6.png','idle_7.png','idle_8.png','idle_9.png','idle_10.png','idle_11.png' ],
@@ -64,13 +210,6 @@
       let sprite2Y = -10;
       let sprite2MoveX = 0;
       let sprite2MoveY = 0;
-      var particles = [];
-      var particleCount = 86;
-      var colors = ["#FFA07A", "#FF8C00", "#FF4500"];
-      var alignRadius = 50;
-      var alignForce = 0.05;
-      var cohesionRadius = 80;
-      var cohesionForce = 0.03;
 
 
       function getDistance(x1, y1, x2, y2) {
