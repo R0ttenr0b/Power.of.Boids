@@ -64,6 +64,13 @@
       let sprite2Y = -10;
       let sprite2MoveX = 0;
       let sprite2MoveY = 0;
+      var particles = [];
+      var particleCount = 86;
+      var colors = ["#FFA07A", "#FF8C00", "#FF4500"];
+      var alignRadius = 50;
+      var alignForce = 0.05;
+      var cohesionRadius = 80;
+      var cohesionForce = 0.03;
 
 
       function getDistance(x1, y1, x2, y2) {
