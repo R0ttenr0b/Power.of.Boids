@@ -48,7 +48,7 @@ for (var i = 0; i < particleCount; i++) {
       }
 
       function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        //ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         // Alignment behavior
         for (var i = 0; i < particles.length; i++) {
@@ -313,7 +313,7 @@ for (var i = 0; i < particleCount; i++) {
       }
 
       function updateAndDraw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         drawBackground();
 
@@ -341,15 +341,15 @@ for (var i = 0; i < particleCount; i++) {
        
 
       ctx.drawImage(images[currentAnimation2][frameIndex], sprite2X, sprite2Y);
-
+      checkCollision();
+      checkProximity();
       frameIndex2 ++;
       if (frameIndex >= images[currentAnimation].length) {
         frameIndex = 0;
       }
 }
-      checkCollision();
-      checkProximity();
-      setInterval(updateAndDraw, 75);
+      
+      setInterval(updateAndDraw, 7); ///fps);
     </script>
   </body>
 </html>
