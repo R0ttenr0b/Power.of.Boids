@@ -30,7 +30,8 @@ var particles = [];
       var alignForce = 0.05;
       var cohesionRadius = 80;
       var cohesionForce = 0.03;
-
+      var separationRadius = 30;
+      var separationForce = 0.05;
 
 for (var i = 0; i < particleCount; i++) {
         particles.push(new particle());
@@ -168,7 +169,30 @@ for (var i = 0; i < particleCount; i++) {
           }
           return neighbors;
         }
+        // Separation behavior
+        for (var i = 0; i < particles.length; i++) {
+    var neighbors = getNeighbors(i, separationRadius);
+    var separation = {x: 0, y: 0};
+    for (var j = 0; j < neighbors.length; j++) {
+        var neighbor = particles[neighbors[j]];
+        var dx = particles[i].x - neighbor.x;
+        var dy = particles[i].y - neighbor.y;
+        var distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance < separationRadius) {
+            separation.x += dx / distance; // Weight by distance
+            separation.y += dy / distance;
+        }
+    }
+    if (neighbors.length > 0) {
+        separation.x /= neighbors.length;
+        separation.y /= neighbors.length;
+        separation.x *= separationForce;
+        separation.y *= separationForce;
+        particles[i].vx += separation.x;
+        particles[i].vy += separation.y;
+    }
 
+  }
         draw();
 
       const animations = {
