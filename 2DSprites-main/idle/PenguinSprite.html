@@ -47,8 +47,9 @@ for (var i = 0; i < particleCount; i++) {
         this.life = 50;
       }
 
-      function draw() {
-        //ctx.clearRect(0, 0, canvas.width, canvas.height);
+        function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawBackground();
 
         // Alignment behavior
         for (var i = 0; i < particles.length; i++) {
@@ -199,6 +200,7 @@ for (var i = 0; i < particleCount; i++) {
       let currentAnimation = 'idle';
       let currentAnimation2 = 'sprite2_idle';
       let frameIndex = 0;
+    
       
 
       let penguinX = 700;
@@ -348,8 +350,45 @@ for (var i = 0; i < particleCount; i++) {
         frameIndex = 0;
       }
 }
+function updateAndDraw() {
+     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        drawBackground();
+
+        penguinX += penguinMoveX;
+        penguinY += penguinMoveY;
+
+        if (penguinX < 0) {
+    penguinX = 0;
+  }
+  if (penguinX + images[currentAnimation][frameIndex].width > canvas.width) {
+    penguinX = canvas.width - images[currentAnimation][frameIndex].width;
+  }
+  if (penguinY < 0) {
+    penguinY = 0;
+  }
+  if (penguinY + images[currentAnimation][frameIndex].height > canvas.height) {
+    penguinY = canvas.height - images[currentAnimation][frameIndex].height;
+  }
+
+         ctx.drawImage(images[currentAnimation][frameIndex], penguinX, penguinY);
+
+    
+       sprite2X += sprite2MoveX;
+       sprite2Y += sprite2MoveY;
+
+       
+
+      ctx.drawImage(images[currentAnimation2][frameIndex], sprite2X, sprite2Y);
+      checkCollision();
+      checkProximity();
       
-      setInterval(updateAndDraw, 7); ///fps);
+      if (frameIndex >= images[currentAnimation].length) {
+        frameIndex = 0;
+      }
+}
+//requestAnimationFrame(draw);
+    setInterval(updateAndDraw, 7); ///fps);
     </script>
   </body>
 </html>
