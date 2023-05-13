@@ -30,12 +30,7 @@ var particles = [];
       var alignForce = 0.05;
       var cohesionRadius = 80;
       var cohesionForce = 0.03;
-      var separationRadius = 30;
-      var separationForce = 0.05;
 
-      function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        drawBackground();
 
 for (var i = 0; i < particleCount; i++) {
         particles.push(new particle());
@@ -51,8 +46,9 @@ for (var i = 0; i < particleCount; i++) {
         this.opacity = 1;
         this.life = 50;
       }
-   
- 
+
+      function draw() {
+        //ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         // Alignment behavior
         for (var i = 0; i < particles.length; i++) {
@@ -153,7 +149,7 @@ for (var i = 0; i < particleCount; i++) {
               particles[i] = new particle();
             }
           }
-          setTimeout(draw, 6); // delay between each frame update
+          setTimeout(draw, 46); // delay between each frame update
 
           //requestAnimationFrame(draw);
         }
@@ -171,30 +167,7 @@ for (var i = 0; i < particleCount; i++) {
           }
           return neighbors;
         }
-        // Separation behavior
-        for (var i = 0; i < particles.length; i++) {
-    var neighbors = getNeighbors(i, separationRadius);
-    var separation = {x: 0, y: 0};
-    for (var j = 0; j < neighbors.length; j++) {
-        var neighbor = particles[neighbors[j]];
-        var dx = particles[i].x - neighbor.x;
-        var dy = particles[i].y - neighbor.y;
-        var distance = Math.sqrt(dx * dx + dy * dy);
-        if (distance < separationRadius) {
-            separation.x += dx / distance; // Weight by distance
-            separation.y += dy / distance;
-        }
-    }
-    if (neighbors.length > 0) {
-        separation.x /= neighbors.length;
-        separation.y /= neighbors.length;
-        separation.x *= separationForce;
-        separation.y *= separationForce;
-        particles[i].vx += separation.x;
-        particles[i].vy += separation.y;
-    }
 
-  }
         draw();
 
       const animations = {
@@ -226,7 +199,6 @@ for (var i = 0; i < particleCount; i++) {
       let currentAnimation = 'idle';
       let currentAnimation2 = 'sprite2_idle';
       let frameIndex = 0;
-    
       
 
       let penguinX = 700;
@@ -376,50 +348,8 @@ for (var i = 0; i < particleCount; i++) {
         frameIndex = 0;
       }
 }
-function updateAndDraw() {
-     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        drawBackground();
-
-        penguinX += penguinMoveX;
-        penguinY += penguinMoveY;
-
-        if (penguinX < 0) {
-    penguinX = 0;
-  }
-  if (penguinX + images[currentAnimation][frameIndex].width > canvas.width) {
-    penguinX = canvas.width - images[currentAnimation][frameIndex].width;
-  }
-  if (penguinY < 0) {
-    penguinY = 0;
-  }
-  if (penguinY + images[currentAnimation][frameIndex].height > canvas.height) {
-    penguinY = canvas.height - images[currentAnimation][frameIndex].height;
-  }
-
-         ctx.drawImage(images[currentAnimation][frameIndex], penguinX, penguinY);
-
-    
-       sprite2X += sprite2MoveX;
-       sprite2Y += sprite2MoveY;
-
-       
-
-      ctx.drawImage(images[currentAnimation2][frameIndex], sprite2X, sprite2Y);
-      checkCollision();
-      checkProximity();
       
-      if (frameIndex >= images[currentAnimation].length) {
-        frameIndex = 0;
-      }
-      requestAnimationFrame(draw);
-}
-backgroundImage.onload = () => {
-        drawBackground();
-        requestAnimationFrame(updateAndDraw);
-      };
-    requestAnimationFrame(draw);
-    setInterval(updateAndDraw, 57); ///fps);
+      setInterval(updateAndDraw, 7); ///fps);
     </script>
-  </body>
+  </body>
 </html>
