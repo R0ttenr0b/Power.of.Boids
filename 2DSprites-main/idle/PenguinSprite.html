@@ -33,7 +33,22 @@ var particles = [];
       var separationRadius = 30; 
       var separationForce = 0.05;
 
+      let currentAnimation = 'idle';
+      let currentAnimation2 = 'sprite2_idle';
+      let frameIndex = 0;
+      let lastTime = 0;
       
+
+      let penguinX = 700;
+      let penguinY = 750;
+      let penguinMoveX = 0;
+      let penguinMoveY = 0;
+
+      let sprite2X = -312;
+      let sprite2Y = -10;
+      let sprite2MoveX = 0;
+      let sprite2MoveY = 0;
+
 
 
 for (var i = 0; i < particleCount; i++) {
@@ -224,22 +239,6 @@ for (var i = 0; i < particleCount; i++) {
         }
       }
 
-      let currentAnimation = 'idle';
-      let currentAnimation2 = 'sprite2_idle';
-      let frameIndex = 0;
-      
-
-      let penguinX = 700;
-      let penguinY = 750;
-      let penguinMoveX = 0;
-      let penguinMoveY = 0;
-
-      let sprite2X = -312;
-      let sprite2Y = -10;
-      let sprite2MoveX = 0;
-      let sprite2MoveY = 0;
-
-
       function getDistance(x1, y1, x2, y2) {
   const xDistance = x2 - x1;
   const yDistance = y2 - y1;
@@ -376,7 +375,44 @@ for (var i = 0; i < particleCount; i++) {
         frameIndex = 0;
       }
 }
+function gameLoop(timestamp) {
+        const deltaTime = timestamp - lastTime;
+        lastTime = timestamp;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        updateAndDraw(deltaTime);
+
+        requestAnimationFrame(gameLoop);
+      }
+
+      function updateAndDraw(deltaTime) {
+        drawBackground();
+
+        penguinX += penguinMoveX;
+        penguinY += penguinMoveY;
+
+        if (penguinX < 0) {
+          penguinX = 0;
+        }
+        if (penguinX + images[currentAnimation][frameIndex].width > canvas.width) {
+          penguinX = canvas.width - images[currentAnimation][frameIndex].width;
+        }
+        if (penguinY < 0) {
+          penguinY = 0;
+        }
+        if (penguinY + images[currentAnimation][frameIndex].height > canvas.height) {
+          penguinY = canvas.height - images[currentAnimation][frameIndex].height;
+        }
+
+        ctx.drawImage(images[currentAnimation][frameIndex], penguinX, penguinY);
+        frameIndex = (frameIndex + 1) % images[currentAnimation].length
+        sprite2X += sprite2MoveX;
+        sprite2Y += sprite2MoveY;
+        ctx.drawImage(images[currentAnimation2][frameIndex2], sprite2X, sprite2Y);
+        frameIndex2 = (frameIndex2 + 1) % images[currentAnimation2].length;
+        draw();
+      }
       
+      requestAnimationFrame(gameLoop);
       setInterval(updateAndDraw, 7); ///fps);
     </script>
   </body>
