@@ -60,12 +60,12 @@ for (var i = 0; i < particleCount; i++) {
       function particle() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.vx = (Math.random() - 0.5) * 2;
-        this.vy = (Math.random() - 0.5) * 2;
+        this.vx = (Math.random() - 0.5) * 1;
+        this.vy = (Math.random() - 0.5) * 1;
         this.size = Math.random() * 3 + 2;
         this.color = colors[Math.floor(Math.random() * colors.length)];
         this.opacity = 1;
-        this.life = 50;
+        this.life = 2850;
       }
 
       function draw() {
@@ -124,7 +124,7 @@ for (var i = 0; i < particleCount; i++) {
             // Update particle position and opacity
             p.x += p.vx;
             p.y += p.vy;
-            p.opacity -= 1 / p.life;
+            p.opacity -= 1 / (2000 * p.life);
             p.life--;
 
             // Spawn a new particle if the current one has expired or is out of bounds
@@ -195,7 +195,7 @@ for (var i = 0; i < particleCount; i++) {
     }
 }
           //setTimeout(draw, 26); // delay between each frame update
-
+          
           requestAnimationFrame(draw);
         }
 
@@ -230,7 +230,9 @@ for (var i = 0; i < particleCount; i++) {
 
       };
 
-      const images = {};
+      const images = {
+        sprite2_idle:[],
+      };
 
       for (const animation in animations) {
         images[animation] = [];
@@ -370,12 +372,12 @@ for (var i = 0; i < particleCount; i++) {
 
        
 
-      ctx.drawImage(images[currentAnimation2][frameIndex], sprite2X, sprite2Y);
+      ctx.drawImage(images[currentAnimation2][frameIndex2], sprite2X, sprite2Y);
       checkCollision();
       checkProximity();
       frameIndex2 ++;
-      if (frameIndex >= images[currentAnimation].length) {
-        frameIndex = 0;
+      if (frameIndex2 >= images[currentAnimation2].length) {
+        frameIndex2 = 0;
       }
 }
 
@@ -408,26 +410,18 @@ function gameLoop(timestamp) {
         }
 
         ctx.drawImage(images[currentAnimation][frameIndex], penguinX, penguinY);
-        frameIndex = (frameIndex + 1) % images[currentAnimation].length
+        frameIndex = (frameIndex + 1) % images[currentAnimation].length;
        
         sprite2X += sprite2MoveX;
         sprite2Y += sprite2MoveY;
 
-        if (sprite2X < 0) {
-    sprite2X = 0;
-          }
-        if (sprite2X + images[currentAnimation2][frameIndex].width > canvas.width) {
-      sprite2X = canvas.width - images[currentAnimation2][frameIndex].width;
-         }
-        if (sprite2Y < 0) {
-    sprite2Y = 0;
-         }
-        if (sprite2Y + images[currentAnimation2][frameIndex].height > canvas.height) {
-    sprite2Y = canvas.height - images[currentAnimation2][frameIndex].height;
+        if (Math.random() < 0.01) {
+          sprite2MoveX = Math.random() * 2 - 1; // Random X velocity between -1 and 1
+          sprite2MoveY = Math.random() * 2 - 1; // Random Y velocity between -1 and 1
         }
         ctx.drawImage(images[currentAnimation2][frameIndex2], sprite2X, sprite2Y);
-        frameIndex2 = (frameIndex2 + 1) % images[currentAnimation2].length;
-        draw();
+        frameIndex = (frameIndex2 + 1) % images[currentAnimation2].length;
+      
       }
       
       requestAnimationFrame(gameLoop);
