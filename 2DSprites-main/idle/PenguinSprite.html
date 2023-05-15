@@ -194,6 +194,7 @@ for (var i = 0; i < particleCount; i++) {
         particles[i].vy += separation.y;
     }
 }
+
           //setTimeout(draw, 26); // delay between each frame update
           
           requestAnimationFrame(draw);
@@ -345,25 +346,25 @@ for (var i = 0; i < particleCount; i++) {
       }
 
      function updateAndDraw() {
-     ctx.clearRect(0, 0, canvas.width, canvas.height);
+     //ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        drawBackground();
+       // drawBackground();
 
         penguinX += penguinMoveX;
         penguinY += penguinMoveY;
 
-        if (penguinX < 0) {
-    penguinX = 0;
-  }
-  if (penguinX + images[currentAnimation][frameIndex].width > canvas.width) {
-    penguinX = canvas.width - images[currentAnimation][frameIndex].width;
-  }
-  if (penguinY < 0) {
-    penguinY = 0;
-  }
-  if (penguinY + images[currentAnimation][frameIndex].height > canvas.height) {
-    penguinY = canvas.height - images[currentAnimation][frameIndex].height;
-  }
+            if (penguinX < 0) {
+        penguinX = 0;
+      }
+      if (penguinX + images[currentAnimation][frameIndex].width > canvas.width) {
+        penguinX = canvas.width - images[currentAnimation][frameIndex].width;
+      }
+      if (penguinY < 0) {
+        penguinY = 0;
+      }
+      if (penguinY + images[currentAnimation][frameIndex].height > canvas.height) {
+        penguinY = canvas.height - images[currentAnimation][frameIndex].height;
+      }
 
          ctx.drawImage(images[currentAnimation][frameIndex], penguinX, penguinY);
 
@@ -421,7 +422,7 @@ function gameLoop(timestamp) {
         }
         ctx.drawImage(images[currentAnimation2][frameIndex2], sprite2X, sprite2Y);
         frameIndex = (frameIndex2 + 1) % images[currentAnimation2].length;
-      
+        
       }
       
       requestAnimationFrame(gameLoop);
